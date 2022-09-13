@@ -24,21 +24,25 @@
 						{
 							"key": "p",
 							"value": "1",
+							"description": "Page number",
 							"disabled": true
 						},
 						{
 							"key": "rp",
 							"value": "5",
+							"description": "Record per page",
 							"disabled": true
 						},
 						{
 							"key": "title",
 							"value": "Buku Satu",
+							"description": "Filter by title",
 							"disabled": true
 						},
 						{
 							"key": "isbn",
 							"value": "9101112",
+							"description": "filter by ISBN",
 							"disabled": true
 						}
 					]
@@ -51,38 +55,37 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://virtserver.swaggerhub.com/sepulsa/RentABook-API/1.0.0/book",
-							"protocol": "https",
+							"raw": "{{base}}/{{version}}/book",
 							"host": [
-								"virtserver",
-								"swaggerhub",
-								"com"
+								"{{base}}"
 							],
 							"path": [
-								"sepulsa",
-								"RentABook-API",
-								"1.0.0",
+								"{{version}}",
 								"book"
 							],
 							"query": [
 								{
 									"key": "p",
 									"value": "1",
+									"description": "Page number",
 									"disabled": true
 								},
 								{
 									"key": "rp",
 									"value": "5",
+									"description": "Record per page",
 									"disabled": true
 								},
 								{
 									"key": "title",
 									"value": "Buku Satu",
+									"description": "Filter by title",
 									"disabled": true
 								},
 								{
 									"key": "isbn",
 									"value": "9101112",
+									"description": "filter by ISBN",
 									"disabled": true
 								}
 							]
@@ -94,7 +97,7 @@
 					"header": [
 						{
 							"key": "Date",
-							"value": "Tue, 13 Sep 2022 08:49:40 GMT"
+							"value": "Tue, 13 Sep 2022 11:17:47 GMT"
 						},
 						{
 							"key": "Content-Type",
@@ -163,22 +166,17 @@
 			},
 			"response": [
 				{
-					"name": "200 OK - Successfull get a book detail",
+					"name": "200 OK - Successfull get the book with id 1234 detail",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://virtserver.swaggerhub.com/sepulsa/RentABook-API/1.0.0/book/:id",
-							"protocol": "https",
+							"raw": "{{base}}/{{version}}/book/:id",
 							"host": [
-								"virtserver",
-								"swaggerhub",
-								"com"
+								"{{base}}"
 							],
 							"path": [
-								"sepulsa",
-								"RentABook-API",
-								"1.0.0",
+								"{{version}}",
 								"book",
 								":id"
 							],
@@ -196,7 +194,7 @@
 					"header": [
 						{
 							"key": "Date",
-							"value": "Tue, 13 Sep 2022 08:48:45 GMT"
+							"value": "Tue, 13 Sep 2022 11:18:46 GMT"
 						},
 						{
 							"key": "Content-Type",
@@ -281,17 +279,12 @@
 							}
 						},
 						"url": {
-							"raw": "https://virtserver.swaggerhub.com/sepulsa/RentABook-API/1.0.0/book",
-							"protocol": "https",
+							"raw": "{{base}}/{{version}}/book",
 							"host": [
-								"virtserver",
-								"swaggerhub",
-								"com"
+								"{{base}}"
 							],
 							"path": [
-								"sepulsa",
-								"RentABook-API",
-								"1.0.0",
+								"{{version}}",
 								"book"
 							]
 						}
@@ -302,7 +295,7 @@
 					"header": [
 						{
 							"key": "Date",
-							"value": "Tue, 13 Sep 2022 09:06:02 GMT"
+							"value": "Tue, 13 Sep 2022 11:19:05 GMT"
 						},
 						{
 							"key": "Content-Type",
@@ -380,7 +373,7 @@
 			},
 			"response": [
 				{
-					"name": "200 OK - Successfull update a book",
+					"name": "200 OK - Successfull update the book with id 1234",
 					"originalRequest": {
 						"method": "PUT",
 						"header": [],
@@ -417,7 +410,7 @@
 					"header": [
 						{
 							"key": "Date",
-							"value": "Tue, 13 Sep 2022 09:06:33 GMT"
+							"value": "Tue, 13 Sep 2022 11:19:18 GMT"
 						},
 						{
 							"key": "Content-Type",
@@ -486,7 +479,7 @@
 			},
 			"response": [
 				{
-					"name": "200 OK - Successfull delete a book",
+					"name": "200 OK - Successfull delete the book with id 1234",
 					"originalRequest": {
 						"method": "DELETE",
 						"header": [],
@@ -514,7 +507,7 @@
 					"header": [
 						{
 							"key": "Date",
-							"value": "Tue, 13 Sep 2022 09:06:53 GMT"
+							"value": "Tue, 13 Sep 2022 11:19:33 GMT"
 						},
 						{
 							"key": "Content-Type",
