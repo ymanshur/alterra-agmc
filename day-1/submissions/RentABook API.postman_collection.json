@@ -1,0 +1,562 @@
+{
+	"info": {
+		"_postman_id": "2192c4cc-9290-42be-9c23-bad7f6052d25",
+		"name": "RentABook API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "983710"
+	},
+	"item": [
+		{
+			"name": "Get all book",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base}}/{{version}}/book",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"{{version}}",
+						"book"
+					],
+					"query": [
+						{
+							"key": "p",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "rp",
+							"value": "5",
+							"disabled": true
+						},
+						{
+							"key": "title",
+							"value": "Buku Satu",
+							"disabled": true
+						},
+						{
+							"key": "isbn",
+							"value": "9101112",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200 OK - Successfull get all book",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://virtserver.swaggerhub.com/sepulsa/RentABook-API/1.0.0/book",
+							"protocol": "https",
+							"host": [
+								"virtserver",
+								"swaggerhub",
+								"com"
+							],
+							"path": [
+								"sepulsa",
+								"RentABook-API",
+								"1.0.0",
+								"book"
+							],
+							"query": [
+								{
+									"key": "p",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "rp",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "Buku Satu",
+									"disabled": true
+								},
+								{
+									"key": "isbn",
+									"value": "9101112",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Tue, 13 Sep 2022 08:49:40 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "153"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "X-Requested-With,Content-Type,Accept,Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						},
+						{
+							"key": "Server",
+							"value": "Jetty(9.4.29.v20200521)"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"created_at\": \"2019-02-18T00:00:00\",\n        \"updated_at\": \"2019-02-18T00:00:00\",\n        \"deleted_at\": \"2019-02-18T00:00:00\",\n        \"id\": 1234,\n        \"title\": \"Judul Buku Satu\",\n        \"isbn\": \"1-234-5678-9101112-13\",\n        \"writer\": \"Dr. Who\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Get book by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base}}/{{version}}/book/:id",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"{{version}}",
+						"book",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1234"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200 OK - Successfull get a book detail",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://virtserver.swaggerhub.com/sepulsa/RentABook-API/1.0.0/book/:id",
+							"protocol": "https",
+							"host": [
+								"virtserver",
+								"swaggerhub",
+								"com"
+							],
+							"path": [
+								"sepulsa",
+								"RentABook-API",
+								"1.0.0",
+								"book",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1234"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Tue, 13 Sep 2022 08:48:45 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "149"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "X-Requested-With,Content-Type,Accept,Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						},
+						{
+							"key": "Server",
+							"value": "Jetty(9.4.29.v20200521)"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"created_at\": \"2019-02-18T00:00:00\",\n    \"updated_at\": \"2019-02-18T00:00:00\",\n    \"deleted_at\": \"2019-02-18T00:00:00\",\n    \"id\": 1234,\n    \"title\": \"Judul Buku Satu\",\n    \"isbn\": \"1-234-5678-9101112-13\",\n    \"writer\": \"Dr. Who\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Create new book",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"client_id\": 1234,\r\n  \"client_key\": \"CLIENT01\",\r\n  \"client_secret\": \"SECRET01\",\r\n  \"status\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base}}/{{version}}/book",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"{{version}}",
+						"book"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200 OK - Successfull create a new book",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"client_id\": 1234,\r\n  \"client_key\": \"CLIENT01\",\r\n  \"client_secret\": \"SECRET01\",\r\n  \"status\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://virtserver.swaggerhub.com/sepulsa/RentABook-API/1.0.0/book",
+							"protocol": "https",
+							"host": [
+								"virtserver",
+								"swaggerhub",
+								"com"
+							],
+							"path": [
+								"sepulsa",
+								"RentABook-API",
+								"1.0.0",
+								"book"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Tue, 13 Sep 2022 09:06:02 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "130"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "X-Requested-With,Content-Type,Accept,Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						},
+						{
+							"key": "Server",
+							"value": "Jetty(9.4.29.v20200521)"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"created_at\": \"2019-02-18T00:00:00\",\n    \"updated_at\": \"2019-02-18T00:00:00\",\n    \"deleted_at\": \"2019-02-18T00:00:00\",\n    \"client_id\": 1234,\n    \"client_key\": \"CLIENT01\",\n    \"client_secret\": \"SECRET01\",\n    \"status\": true\n}"
+				}
+			]
+		},
+		{
+			"name": "Update book by id",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 1234,\r\n  \"title\": \"Judul Buku Satu\",\r\n  \"isbn\": \"1-234-5678-9101112-13\",\r\n  \"writer\": \"Dr. Who Whoo\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base}}/{{version}}/book/:id",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"{{version}}",
+						"book",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1234"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200 OK - Successfull update a book",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 1234,\r\n  \"title\": \"Judul Buku Satu\",\r\n  \"isbn\": \"1-234-5678-9101112-13\",\r\n  \"writer\": \"Dr. Who Whoo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/{{version}}/book/:id",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"{{version}}",
+								"book",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1234"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Tue, 13 Sep 2022 09:06:33 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "149"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "X-Requested-With,Content-Type,Accept,Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						},
+						{
+							"key": "Server",
+							"value": "Jetty(9.4.29.v20200521)"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"created_at\": \"2019-02-18T00:00:00\",\n    \"updated_at\": \"2019-02-18T00:00:00\",\n    \"deleted_at\": \"2019-02-18T00:00:00\",\n    \"id\": 1234,\n    \"title\": \"Judul Buku Satu\",\n    \"isbn\": \"1-234-5678-9101112-13\",\n    \"writer\": \"Dr. Who\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete book by id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base}}/{{version}}/book/:id",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"{{version}}",
+						"book",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1234"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200 OK - Successfull delete a book",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/{{version}}/book/:id",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"{{version}}",
+								"book",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1234"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Tue, 13 Sep 2022 09:06:53 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "47"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "X-Requested-With,Content-Type,Accept,Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						},
+						{
+							"key": "Server",
+							"value": "Jetty(9.4.29.v20200521)"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"deleted\"\n}"
+				}
+			]
+		}
+	]
+}
