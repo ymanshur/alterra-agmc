@@ -1,2 +1,2 @@
-# alterra-agmc
-Alterra advance golang mini bootcamp submission purpose 
+# Advance Golang Mini Bootcamp by Alterra
+Each folder consist any code to learn and task submissions
