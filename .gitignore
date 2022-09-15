@@ -8,6 +8,9 @@
 # Log files
 *.log
 
+# Secrete files
+*.sec
+
 # Test binary, built with `go test -c`
 *.test
 
