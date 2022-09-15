@@ -1,3 +1,6 @@
 go 1.19
 
-use ./go-training-restful
+use (
+	./day-2/submissions/go-restful
+	./go-training-restful
+)
