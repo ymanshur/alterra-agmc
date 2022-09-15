@@ -1,10 +1,10 @@
 package database
 
 import (
+	"errors"
 	"go-training-restful/config"
+	"go-training-restful/middlewares"
 	"go-training-restful/models"
-
-	"github.com/labstack/echo/v4"
 )
 
 func GetUsers() (interface{}, error) {
@@ -15,20 +15,35 @@ func GetUsers() (interface{}, error) {
 	return users, nil
 }
 
-func CreateUser(c echo.Context) (interface{}, error) {
-	user := models.User{}
-	c.Bind(&user)
+func CreateUser(user *models.User) (interface{}, error) {
 	if err := config.DB.Save(&user).Error; err != nil {
 		return nil, err
 	}
 	return user, nil
 }
 
-func GetUser(c echo.Context) (interface{}, error) {
-	userId := c.Param("id")
+func GetUser(userId uint) (interface{}, error) {
 	var user models.User
-	if err := config.DB.Where("id = ?", userId).First(&user).Error; err != nil {
+	if err := config.DB.Where(models.User{ID: userId}).Take(&user).Error; err != nil {
 		return nil, err
 	}
+	return user, nil
+}
+
+func LoginUser(user *models.User) (interface{}, error) {
+	if user.Email == "" || user.Password == "" {
+		return nil, errors.New("required both email and password")
+	}
+
+	if err := config.DB.Where(models.User{Email: user.Email, Password: user.Password}).Take(&user).Error; err != nil {
+		return nil, errors.New("these credentials do not match our records")
+	}
+
+	token, err := middlewares.CreateToken(user.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	user.Token = token
 	return user, nil
 }

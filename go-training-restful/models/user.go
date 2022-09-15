@@ -6,11 +6,11 @@ import (
 
 type User struct {
 	// gorm.Model
-	ID        uint       `json:"id" gorm:"primary_key"`
-	CreatedAt time.Time  `json:"created_at"`
-	UpdatedAt time.Time  `json:"updated_at"`
-	DeletedAt *time.Time `json:"deleted_at" sql:"index"`
-	Name      string     `json:"name" form:"name"`
-	Email     string     `json:"email" form:"email"`
-	Password  string     `json:"password" form:"password"`
+	ID        uint      `gorm:"primaryKey" json:"id"`
+	CreatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP;autoCreateTime" json:"created_at"`
+	UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP;autoUpdateTime" json:"updated_at"`
+	Name      *string   `gorm:"size:256" json:"name" form:"name"`
+	Email     string    `gorm:"not null;unique" json:"email" form:"email"`
+	Password  string    `gorm:"not null" json:"password" form:"password"`
+	Token     string    `gorm:"-:all" json:"token"`
 }

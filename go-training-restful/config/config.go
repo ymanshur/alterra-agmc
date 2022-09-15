@@ -17,7 +17,7 @@ func InitDB() {
 		"DB_PASS": "",
 		"DB_PORT": "3306",
 		"DB_HOST": "127.0.0.1",
-		"DB_NAME": "agmc",
+		"DB_NAME": "agmc_training",
 	}
 	// dsn
 	connectionString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
@@ -33,7 +33,7 @@ func InitDB() {
 		panic(e)
 	}
 
-	// InitMigrate()
+	InitMigrate()
 }
 
 func InitMigrate() {
