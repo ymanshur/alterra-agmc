@@ -12,13 +12,18 @@ func Login(c echo.Context) error {
 	user := new(model.User)
 	c.Bind(&user)
 
+	// Throws bad request error
+	// if user.Email == "" || user.Password == "" {
+	// 	return echo.ErrBadRequest
+	// }
+
 	loggedInUser, err := database.Login(user)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
 	return c.JSON(http.StatusOK, echo.Map{
-		"message": "success loggin",
+		"message": "success logged in",
 		"data":    loggedInUser,
 	})
 }

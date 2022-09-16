@@ -3,11 +3,8 @@ package database
 import (
 	"errors"
 	"go-restful/config"
+	"go-restful/lib/auth"
 	"go-restful/model"
-	"os"
-	"time"
-
-	"github.com/golang-jwt/jwt"
 )
 
 func Login(user *model.User) (interface{}, error) {
@@ -19,14 +16,7 @@ func Login(user *model.User) (interface{}, error) {
 		return nil, errors.New("these credentials do not match our records")
 	}
 
-	// Create token
-	claims := jwt.MapClaims{
-		"authorized": true,
-		"Email":      user.Email,
-		"exp":        time.Now().Add(time.Hour + 1).Unix(), // Token expires after 1 hour
-	}
-
-	token, err := jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString([]byte(os.Getenv("SECRET_JWT")))
+	token, err := auth.CreateJWt(user)
 	if err != nil {
 		return nil, err
 	}

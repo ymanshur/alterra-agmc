@@ -4,7 +4,6 @@ import (
 	"go-restful/config"
 	"go-restful/route"
 	"log"
-	"os"
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
@@ -19,9 +18,9 @@ func init() {
 }
 
 func main() {
-	// Initial config
+	// Init database
 	config.InitDB()
-
+	// Init echo
 	e := echo.New()
 
 	// Middleware
@@ -31,14 +30,13 @@ func main() {
 	}))
 	e.Use(middleware.Recover())
 
+	// Default group
 	g := e.Group("")
-	gAuth := e.Group("")
-	gAuth.Use(middleware.JWT([]byte(os.Getenv("SECRET_JWT"))))
 
 	// Routes
 	route.Auth(g)
-	route.Book(g, gAuth)
-	route.User(g, gAuth)
+	route.Book(g)
+	route.User(g)
 
 	// Start server
 	e.Logger.Fatal(e.Start(":1323"))
