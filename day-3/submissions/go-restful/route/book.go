@@ -6,10 +6,10 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func Book(g *echo.Group) {
+func Book(g, gAuth *echo.Group) {
 	g.GET("/books", controller.GetAllBook)
-	g.POST("/books", controller.CreateBook)
+	gAuth.POST("/books", controller.CreateBook)
 	g.GET("/books/:id", controller.GetBook)
-	g.PUT("/books/:id", controller.UpdateBook)
-	g.DELETE("/books/:id", controller.DeleteBook)
+	gAuth.PUT("/books/:id", controller.UpdateBook)
+	gAuth.DELETE("/books/:id", controller.DeleteBook)
 }

@@ -1,12 +1,14 @@
 package controller
 
 import (
+	"errors"
 	"go-restful/lib/database"
 	"go-restful/model"
 	"net/http"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
+	"gorm.io/gorm"
 )
 
 func CreateUser(c echo.Context) error {
@@ -18,7 +20,7 @@ func CreateUser(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	return c.JSON(http.StatusCreated, map[string]interface{}{
+	return c.JSON(http.StatusCreated, echo.Map{
 		"message": "success create new user",
 		"data":    createdUser,
 	})
@@ -27,12 +29,15 @@ func CreateUser(c echo.Context) error {
 func GetUser(c echo.Context) error {
 	userId, _ := strconv.Atoi(c.Param("id"))
 
-	user, err := database.GetUser(userId)
+	user, err := database.GetUser(uint(userId))
 	if err != nil {
-		return echo.NewHTTPError(http.StatusNotFound, err.Error())
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return echo.NewHTTPError(http.StatusNotFound, err.Error())
+		}
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	return c.JSON(http.StatusOK, map[string]interface{}{
+	return c.JSON(http.StatusOK, echo.Map{
 		"message": "success get a user",
 		"data":    user,
 	})
@@ -42,7 +47,7 @@ func UpdateUser(c echo.Context) error {
 	userId, _ := strconv.Atoi(c.Param("id"))
 
 	// Return http.StatusNotFound if user does not exist
-	_, err := database.GetUser(userId)
+	_, err := database.GetUser(uint(userId))
 	if err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, err.Error())
 	}
@@ -50,12 +55,12 @@ func UpdateUser(c echo.Context) error {
 	user := new(model.User)
 	c.Bind(&user)
 
-	updatedUser, err := database.UpdateUser(userId, user)
+	updatedUser, err := database.UpdateUser(uint(userId), user)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	return c.JSON(http.StatusOK, map[string]interface{}{
+	return c.JSON(http.StatusOK, echo.Map{
 		"message": "success update a user",
 		"data":    updatedUser,
 	})
@@ -64,11 +69,11 @@ func UpdateUser(c echo.Context) error {
 func DeleteUser(c echo.Context) error {
 	userId, _ := strconv.Atoi(c.Param("id"))
 
-	if err := database.DeleteUser(userId); err != nil {
+	if err := database.DeleteUser(uint(userId)); err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, err.Error())
 	}
 
-	return c.JSON(http.StatusOK, map[string]interface{}{
+	return c.JSON(http.StatusOK, echo.Map{
 		"message": "success delete a user",
 	})
 }
@@ -79,7 +84,7 @@ func GetAllUser(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	return c.JSON(http.StatusOK, map[string]interface{}{
+	return c.JSON(http.StatusOK, echo.Map{
 		"message": "success get all users",
 		"data":    users,
 	})

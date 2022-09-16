@@ -2,6 +2,7 @@ package main
 
 import (
 	"go-restful/config"
+	"go-restful/constant"
 	"go-restful/route"
 
 	"github.com/labstack/echo/v4"
@@ -20,9 +21,14 @@ func main() {
 	}))
 	e.Use(middleware.Recover())
 
+	g := e.Group("")
+	gAuth := e.Group("")
+	gAuth.Use(middleware.JWT([]byte(constant.SECRET_JWT)))
+
 	// Routes
-	route.User(e.Group(""))
-	route.Book(e.Group(""))
+	route.Auth(g)
+	route.Book(g, gAuth)
+	route.User(g, gAuth)
 
 	// Start server
 	e.Logger.Fatal(e.Start(":1323"))

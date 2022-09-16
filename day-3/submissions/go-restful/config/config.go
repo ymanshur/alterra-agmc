@@ -33,7 +33,7 @@ func InitDB() {
 	}
 
 	// Migration
-	// InitMigrate()
+	InitMigrate()
 }
 
 func InitMigrate() {

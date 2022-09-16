@@ -6,10 +6,10 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func User(g *echo.Group) {
-	g.GET("/users", controller.GetAllUser)
+func User(g, gAuth *echo.Group) {
+	gAuth.GET("/users", controller.GetAllUser)
 	g.POST("/users", controller.CreateUser)
-	g.GET("/users/:id", controller.GetUser)
-	g.PUT("/users/:id", controller.UpdateUser)
-	g.DELETE("/users/:id", controller.DeleteUser)
+	gAuth.GET("/users/:id", controller.GetUser)
+	gAuth.PUT("/users/:id", controller.UpdateUser)
+	gAuth.DELETE("/users/:id", controller.DeleteUser)
 }
