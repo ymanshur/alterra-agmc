@@ -18,7 +18,6 @@ func GetUsersController(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, echo.Map{
-		"status":  "success",
 		"message": "success get all users",
 		"data":    users,
 	})
@@ -34,7 +33,6 @@ func CreateUserController(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusCreated, echo.Map{
-		"status":  "success",
 		"message": "success create new user",
 		"data":    createdUser,
 	})
@@ -52,7 +50,6 @@ func GetUserController(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, echo.Map{
-		"status":  "success",
 		"message": "success get a user",
 		"data":    user,
 	})
@@ -68,7 +65,6 @@ func LoginUserController(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, echo.Map{
-		"status":  "success",
 		"message": "success loggin",
 		"data":    loggedInUser,
 	})
