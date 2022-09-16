@@ -10,7 +10,7 @@ import (
 func User(g *echo.Group) {
 	g.GET("/users", controller.GetAllUser, middleware.IsLoggedIn)
 	g.POST("/users", controller.CreateUser)
-	g.GET("/users/:id", controller.GetUser, middleware.IsLoggedIn)
-	g.PUT("/users/:id", controller.UpdateUser, middleware.IsLoggedIn)
-	g.DELETE("/users/:id", controller.DeleteUser, middleware.IsLoggedIn)
+	g.GET("/users/:id", controller.GetUser, middleware.IsLoggedIn, middleware.IsAuthorized)
+	g.PUT("/users/:id", controller.UpdateUser, middleware.IsLoggedIn, middleware.IsAuthorized)
+	g.DELETE("/users/:id", controller.DeleteUser, middleware.IsLoggedIn, middleware.IsAuthorized)
 }

@@ -2,6 +2,7 @@ package controller
 
 import (
 	"errors"
+	"go-restful/constant"
 	"go-restful/lib/database"
 	"go-restful/model"
 	"net/http"
@@ -27,7 +28,10 @@ func CreateUser(c echo.Context) error {
 }
 
 func GetUser(c echo.Context) error {
-	userId, _ := strconv.Atoi(c.Param("id"))
+	userId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, constant.ErrInvalidUrlParam.Error())
+	}
 
 	user, err := database.GetUser(uint(userId))
 	if err != nil {
@@ -44,11 +48,13 @@ func GetUser(c echo.Context) error {
 }
 
 func UpdateUser(c echo.Context) error {
-	userId, _ := strconv.Atoi(c.Param("id"))
+	userId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, constant.ErrInvalidUrlParam.Error())
+	}
 
 	// Return http.StatusNotFound if user does not exist
-	_, err := database.GetUser(uint(userId))
-	if err != nil {
+	if _, err := database.GetUser(uint(userId)); err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, err.Error())
 	}
 
@@ -67,7 +73,10 @@ func UpdateUser(c echo.Context) error {
 }
 
 func DeleteUser(c echo.Context) error {
-	userId, _ := strconv.Atoi(c.Param("id"))
+	userId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, constant.ErrInvalidUrlParam.Error())
+	}
 
 	if err := database.DeleteUser(uint(userId)); err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, err.Error())

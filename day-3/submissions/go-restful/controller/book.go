@@ -1,21 +1,19 @@
 package controller
 
 import (
-	"errors"
+	"go-restful/constant"
 	"go-restful/model"
 	"net/http"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
+	"gorm.io/gorm"
 )
 
 var (
 	books = map[int]*model.Book{}
 	seq   = 1
 )
-
-// ErrRecordNotFound record not found error
-var ErrRecordNotFound = errors.New("record not found")
 
 func CreateBook(c echo.Context) error {
 	book := &model.Book{
@@ -35,10 +33,13 @@ func CreateBook(c echo.Context) error {
 }
 
 func GetBook(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, constant.ErrInvalidUrlParam.Error())
+	}
 
 	if _, exist := books[id]; !exist {
-		return echo.NewHTTPError(http.StatusNotFound, ErrRecordNotFound.Error())
+		return echo.NewHTTPError(http.StatusNotFound, gorm.ErrRecordNotFound.Error())
 	}
 
 	return c.JSON(http.StatusOK, echo.Map{
@@ -48,10 +49,13 @@ func GetBook(c echo.Context) error {
 }
 
 func UpdateBook(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, constant.ErrInvalidUrlParam.Error())
+	}
 
 	if _, exist := books[id]; !exist {
-		return echo.NewHTTPError(http.StatusNotFound, ErrRecordNotFound.Error())
+		return echo.NewHTTPError(http.StatusNotFound, gorm.ErrRecordNotFound.Error())
 	}
 
 	u := new(model.Book)
@@ -69,10 +73,13 @@ func UpdateBook(c echo.Context) error {
 }
 
 func DeleteBook(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, constant.ErrInvalidUrlParam.Error())
+	}
 
 	if _, exist := books[id]; !exist {
-		return echo.NewHTTPError(http.StatusNotFound, ErrRecordNotFound.Error())
+		return echo.NewHTTPError(http.StatusNotFound, gorm.ErrRecordNotFound.Error())
 	}
 
 	delete(books, id)
