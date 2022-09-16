@@ -4,6 +4,7 @@
 *.dll
 *.so
 *.dylib
+*.air.toml
 
 # Environment files
 *.env
