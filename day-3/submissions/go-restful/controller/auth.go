@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"go-restful/lib/database"
 	"go-restful/model"
 	"net/http"
@@ -12,7 +11,6 @@ import (
 func Login(c echo.Context) error {
 	user := new(model.User)
 	c.Bind(&user)
-	fmt.Println(user)
 
 	loggedInUser, err := database.Login(user)
 	if err != nil {

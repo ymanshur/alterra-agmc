@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"go-restful/model"
+	"os"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -11,20 +12,14 @@ import (
 var DB *gorm.DB
 
 func InitDB() {
-	config := map[string]string{
-		"DB_USER": "root",
-		"DB_PASS": "",
-		"DB_PORT": "3306",
-		"DB_HOST": "127.0.0.1",
-		"DB_NAME": "agmc",
-	}
 	// dsn
 	connectionString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-		config["DB_USER"],
-		config["DB_PASS"],
-		config["DB_HOST"],
-		config["DB_PORT"],
-		config["DB_NAME"])
+		os.Getenv("DB_USER"),
+		os.Getenv("DB_PASS"),
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_PORT"),
+		os.Getenv("DB_NAME"),
+	)
 
 	var err error
 	DB, err = gorm.Open(mysql.Open(connectionString), &gorm.Config{})

@@ -2,17 +2,15 @@ package database
 
 import (
 	"errors"
-	"fmt"
 	"go-restful/config"
-	"go-restful/constant"
 	"go-restful/model"
+	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt"
 )
 
 func Login(user *model.User) (interface{}, error) {
-	fmt.Println(user)
 	if user.Email == "" || user.Password == "" {
 		return nil, errors.New("required both email and password")
 	}
@@ -28,7 +26,7 @@ func Login(user *model.User) (interface{}, error) {
 		"exp":        time.Now().Add(time.Hour + 1).Unix(), // Token expires after 1 hour
 	}
 
-	token, err := jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString([]byte(constant.SECRET_JWT))
+	token, err := jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString([]byte(os.Getenv("SECRET_JWT")))
 	if err != nil {
 		return nil, err
 	}
