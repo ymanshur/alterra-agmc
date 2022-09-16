@@ -5,6 +5,9 @@
 *.so
 *.dylib
 
+# Environment files
+*.env
+
 # Log files
 *.log
 
