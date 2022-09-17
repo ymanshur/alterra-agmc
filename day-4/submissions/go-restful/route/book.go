@@ -1,16 +1,18 @@
 package route
 
 import (
-	"go-restful/controller"
-	"go-restful/middleware"
+	"day-4/go-restful/controller"
+	"day-4/go-restful/middleware"
 
 	"github.com/labstack/echo/v4"
 )
 
 func Book(g *echo.Group) {
-	g.GET("/books", controller.GetAllBook)
-	g.POST("/books", controller.CreateBook, middleware.IsLoggedIn)
-	g.GET("/books/:id", controller.GetBook)
-	g.PUT("/books/:id", controller.UpdateBook, middleware.IsLoggedIn)
-	g.DELETE("/books/:id", controller.DeleteBook, middleware.IsLoggedIn)
+	handler := new(controller.BookHandler)
+
+	g.GET("/books", handler.GetAllBook)
+	g.POST("/books", handler.CreateBook, middleware.IsLoggedIn)
+	g.GET("/books/:id", handler.GetBook)
+	g.PUT("/books/:id", handler.UpdateBook, middleware.IsLoggedIn)
+	g.DELETE("/books/:id", handler.DeleteBook, middleware.IsLoggedIn)
 }

@@ -1,7 +1,7 @@
 package route
 
 import (
-	"go-restful/controller"
+	"day-4/go-restful/controller"
 
 	"github.com/labstack/echo/v4"
 )

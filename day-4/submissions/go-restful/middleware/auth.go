@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"go-restful/lib/auth"
+	"day-4/go-restful/lib/auth"
 	"log"
 	"os"
 	"strconv"

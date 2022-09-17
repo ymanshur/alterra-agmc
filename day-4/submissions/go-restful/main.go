@@ -1,8 +1,9 @@
 package main
 
 import (
-	"go-restful/config"
-	"go-restful/route"
+	"day-4/go-restful/config"
+	"day-4/go-restful/route"
+	"fmt"
 	"log"
 
 	"github.com/joho/godotenv"
@@ -37,6 +38,8 @@ func main() {
 	route.Auth(g)
 	route.Book(g)
 	route.User(g)
+
+	fmt.Println(g)
 
 	// Start server
 	e.Logger.Fatal(e.Start(":1323"))

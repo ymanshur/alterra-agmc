@@ -1,8 +1,8 @@
 package database
 
 import (
-	"go-restful/config"
-	"go-restful/model"
+	"day-4/go-restful/config"
+	"day-4/go-restful/model"
 )
 
 func CreateUser(user *model.User) (interface{}, error) {

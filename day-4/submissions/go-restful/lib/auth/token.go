@@ -1,7 +1,7 @@
 package auth
 
 import (
-	"go-restful/model"
+	"day-4/go-restful/model"
 	"os"
 	"time"
 
@@ -15,7 +15,7 @@ type JwtClaims struct {
 	jwt.StandardClaims
 }
 
-func CreateJWt(user *model.User) (string, error) {
+func CreateJwt(user *model.User) (string, error) {
 	// Set claims
 	// claims := jwt.MapClaims{
 	// 	"email": user.ID,

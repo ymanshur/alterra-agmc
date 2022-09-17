@@ -1,10 +1,10 @@
 package controller
 
 import (
+	"day-4/go-restful/constant"
+	"day-4/go-restful/lib/database"
+	"day-4/go-restful/model"
 	"errors"
-	"go-restful/constant"
-	"go-restful/lib/database"
-	"go-restful/model"
 	"net/http"
 	"strconv"
 

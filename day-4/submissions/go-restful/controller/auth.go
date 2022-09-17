@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"go-restful/lib/database"
-	"go-restful/model"
+	"day-4/go-restful/lib/database"
+	"day-4/go-restful/model"
 	"net/http"
 
 	"github.com/labstack/echo/v4"

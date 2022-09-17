@@ -1,10 +1,10 @@
 package database
 
 import (
+	"day-4/go-restful/config"
+	"day-4/go-restful/lib/auth"
+	"day-4/go-restful/model"
 	"errors"
-	"go-restful/config"
-	"go-restful/lib/auth"
-	"go-restful/model"
 )
 
 func Login(user *model.User) (interface{}, error) {
@@ -16,7 +16,7 @@ func Login(user *model.User) (interface{}, error) {
 		return nil, errors.New("these credentials do not match our records")
 	}
 
-	token, err := auth.CreateJWt(user)
+	token, err := auth.CreateJwt(user)
 	if err != nil {
 		return nil, err
 	}

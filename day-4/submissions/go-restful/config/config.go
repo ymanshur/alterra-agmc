@@ -1,8 +1,8 @@
 package config
 
 import (
+	"day-4/go-restful/model"
 	"fmt"
-	"go-restful/model"
 	"os"
 
 	"gorm.io/driver/mysql"

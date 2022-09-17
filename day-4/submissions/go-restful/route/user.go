@@ -1,8 +1,8 @@
 package route
 
 import (
-	"go-restful/controller"
-	"go-restful/middleware"
+	"day-4/go-restful/controller"
+	"day-4/go-restful/middleware"
 
 	"github.com/labstack/echo/v4"
 )
