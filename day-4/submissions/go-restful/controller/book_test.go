@@ -28,10 +28,10 @@ func TestCreateBookCreated(t *testing.T) {
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	res := httptest.NewRecorder()
 	ctx := e.NewContext(req, res)
-	h := &BookHandler{map[int]*model.Book{}}
+	c := &BookController{map[int]*model.Book{}}
 
 	// Assertions
-	if assert.NoError(t, h.CreateBook(ctx)) {
+	if assert.NoError(t, c.CreateBook(ctx)) {
 		assert.Equal(t, http.StatusCreated, res.Code)
 	}
 }
@@ -45,10 +45,10 @@ func TestCreateBookUnprocessableEntity(t *testing.T) {
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 	ctx := e.NewContext(req, rec)
-	h := &BookHandler{map[int]*model.Book{}}
+	c := &BookController{map[int]*model.Book{}}
 
 	// Assertions
-	if assert.NoError(t, h.CreateBook(ctx)) {
+	if assert.NoError(t, c.CreateBook(ctx)) {
 		assert.Equal(t, http.StatusUnprocessableEntity, rec.Code)
 	}
 }
@@ -61,10 +61,10 @@ func TestGetBookSuccess(t *testing.T) {
 	ctx := e.NewContext(req, rec)
 	ctx.SetParamNames("id")
 	ctx.SetParamValues("1")
-	h := &BookHandler{mockDB}
+	c := &BookController{mockDB}
 
 	// Assertions
-	if assert.NoError(t, h.GetBook(ctx)) {
+	if assert.NoError(t, c.GetBook(ctx)) {
 		assert.Equal(t, http.StatusOK, rec.Code)
 	}
 }
@@ -77,10 +77,10 @@ func TestGetBookBadRequest(t *testing.T) {
 	ctx := e.NewContext(req, rec)
 	ctx.SetParamNames("id")
 	ctx.SetParamValues("a")
-	h := &BookHandler{mockDB}
+	c := &BookController{mockDB}
 
 	// Assertions
-	if assert.NoError(t, h.GetBook(ctx)) {
+	if assert.NoError(t, c.GetBook(ctx)) {
 		assert.Equal(t, http.StatusBadRequest, rec.Code)
 	}
 }
@@ -96,10 +96,10 @@ func TestUpdateBookSuccess(t *testing.T) {
 	ctx := e.NewContext(req, rec)
 	ctx.SetParamNames("id")
 	ctx.SetParamValues("1")
-	h := &BookHandler{mockDB}
+	c := &BookController{mockDB}
 
 	// Assertions
-	if assert.NoError(t, h.UpdateBook(ctx)) {
+	if assert.NoError(t, c.UpdateBook(ctx)) {
 		assert.Equal(t, http.StatusOK, rec.Code)
 	}
 }
@@ -115,10 +115,10 @@ func TestUpdateBookBadRequest(t *testing.T) {
 	ctx := e.NewContext(req, rec)
 	ctx.SetParamNames("id")
 	ctx.SetParamValues("1")
-	h := &BookHandler{mockDB}
+	c := &BookController{mockDB}
 
 	// Assertions
-	if assert.NoError(t, h.UpdateBook(ctx)) {
+	if assert.NoError(t, c.UpdateBook(ctx)) {
 		assert.Equal(t, http.StatusUnprocessableEntity, rec.Code)
 	}
 }
@@ -131,10 +131,10 @@ func TestDeleteBookSuccess(t *testing.T) {
 	ctx := e.NewContext(req, rec)
 	ctx.SetParamNames("id")
 	ctx.SetParamValues("1")
-	h := &BookHandler{mockDB}
+	c := &BookController{mockDB}
 
 	// Assertions
-	if assert.NoError(t, h.DeleteBook(ctx)) {
+	if assert.NoError(t, c.DeleteBook(ctx)) {
 		assert.Equal(t, http.StatusOK, rec.Code)
 	}
 }
@@ -147,10 +147,10 @@ func TestDeleteBookRecordNotFound(t *testing.T) {
 	ctx := e.NewContext(req, rec)
 	ctx.SetParamNames("id")
 	ctx.SetParamValues("2")
-	h := &BookHandler{mockDB}
+	c := &BookController{mockDB}
 
 	// Assertions
-	if assert.NoError(t, h.DeleteBook(ctx)) {
+	if assert.NoError(t, c.DeleteBook(ctx)) {
 		assert.Equal(t, http.StatusNotFound, rec.Code)
 	}
 }
@@ -161,10 +161,10 @@ func TestGetAllBookSuccess(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, path, nil)
 	rec := httptest.NewRecorder()
 	ctx := e.NewContext(req, rec)
-	h := &BookHandler{mockDB}
+	c := &BookController{mockDB}
 
 	// Assertions
-	if assert.NoError(t, h.GetAllBook(ctx)) {
+	if assert.NoError(t, c.GetAllBook(ctx)) {
 		assert.Equal(t, http.StatusOK, rec.Code)
 	}
 }
