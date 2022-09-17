@@ -3,5 +3,6 @@ go 1.19
 use (
 	// ./day-2/submissions/go-restful
 	./day-3/submissions/go-restful
+	./day-4/calculate
 	./go-training-restful
 )
