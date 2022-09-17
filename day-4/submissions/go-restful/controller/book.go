@@ -126,3 +126,9 @@ func (c *BookController) GetAllBook(ctx echo.Context) error {
 		"data":    data,
 	})
 }
+
+func NewBookController(db map[int]*model.Book) BookController {
+	return BookController{
+		DB: db,
+	}
+}

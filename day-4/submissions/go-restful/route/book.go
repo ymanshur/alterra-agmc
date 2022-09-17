@@ -1,18 +1,19 @@
 package route
 
 import (
-	"day-4/go-restful/controller"
+	c "day-4/go-restful/controller"
 	m "day-4/go-restful/middleware"
+	"day-4/go-restful/model"
 
 	"github.com/labstack/echo/v4"
 )
 
-func Book(g *echo.Group) {
-	c := new(controller.BookController)
+func RouteBook(g *echo.Group) {
+	controller := c.NewBookController(map[int]*model.Book{})
 
-	g.GET("/books", c.GetAllBook)
-	g.POST("/books", c.CreateBook, m.IsLoggedIn)
-	g.GET("/books/:id", c.GetBook)
-	g.PUT("/books/:id", c.UpdateBook, m.IsLoggedIn)
-	g.DELETE("/books/:id", c.DeleteBook, m.IsLoggedIn)
+	g.GET("/books", controller.GetAllBook)
+	g.POST("/books", controller.CreateBook, m.IsLoggedIn)
+	g.GET("/books/:id", controller.GetBook)
+	g.PUT("/books/:id", controller.UpdateBook, m.IsLoggedIn)
+	g.DELETE("/books/:id", controller.DeleteBook, m.IsLoggedIn)
 }

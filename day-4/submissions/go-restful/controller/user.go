@@ -2,8 +2,8 @@ package controller
 
 import (
 	"day-4/go-restful/constant"
-	"day-4/go-restful/lib/database"
 	"day-4/go-restful/model"
+	"day-4/go-restful/repository"
 	"errors"
 	"net/http"
 	"strconv"
@@ -12,28 +12,32 @@ import (
 	"gorm.io/gorm"
 )
 
-func CreateUser(c echo.Context) error {
-	user := new(model.User)
-	c.Bind(&user)
+type UserController struct {
+	repo *repository.UserRepository
+}
 
-	createdUser, err := database.CreateUser(user)
+func (c *UserController) CreateUser(ctx echo.Context) error {
+	user := new(model.User)
+	ctx.Bind(&user)
+
+	createdUser, err := c.repo.Create(user)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	return c.JSON(http.StatusCreated, echo.Map{
+	return ctx.JSON(http.StatusCreated, echo.Map{
 		"message": "success create new user",
 		"data":    createdUser,
 	})
 }
 
-func GetUser(c echo.Context) error {
-	userId, err := strconv.Atoi(c.Param("id"))
+func (c *UserController) GetUser(ctx echo.Context) error {
+	userId, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, constant.ErrInvalidUrlParam.Error())
 	}
 
-	user, err := database.GetUser(uint(userId))
+	user, err := c.repo.Get(uint(userId))
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return echo.NewHTTPError(http.StatusNotFound, err.Error())
@@ -41,60 +45,88 @@ func GetUser(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	return c.JSON(http.StatusOK, echo.Map{
+	return ctx.JSON(http.StatusOK, echo.Map{
 		"message": "success get a user",
 		"data":    user,
 	})
 }
 
-func UpdateUser(c echo.Context) error {
-	userId, err := strconv.Atoi(c.Param("id"))
+func (c *UserController) UpdateUser(ctx echo.Context) error {
+	userId, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, constant.ErrInvalidUrlParam.Error())
 	}
 
 	// Return http.StatusNotFound if user does not exist
-	if _, err := database.GetUser(uint(userId)); err != nil {
+	if _, err := c.repo.Get(uint(userId)); err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, err.Error())
 	}
 
 	user := new(model.User)
-	c.Bind(&user)
+	ctx.Bind(&user)
 
-	updatedUser, err := database.UpdateUser(uint(userId), user)
+	updatedUser, err := c.repo.Update(uint(userId), user)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	return c.JSON(http.StatusOK, echo.Map{
+	return ctx.JSON(http.StatusOK, echo.Map{
 		"message": "success update a user",
 		"data":    updatedUser,
 	})
 }
 
-func DeleteUser(c echo.Context) error {
-	userId, err := strconv.Atoi(c.Param("id"))
+func (c *UserController) DeleteUser(ctx echo.Context) error {
+	userId, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, constant.ErrInvalidUrlParam.Error())
 	}
 
-	if err := database.DeleteUser(uint(userId)); err != nil {
+	if err := c.repo.Delete(uint(userId)); err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, err.Error())
 	}
 
-	return c.JSON(http.StatusOK, echo.Map{
+	return ctx.JSON(http.StatusOK, echo.Map{
 		"message": "success delete a user",
 	})
 }
 
-func GetAllUser(c echo.Context) error {
-	users, err := database.GetAllUser()
+func (c *UserController) GetAllUser(ctx echo.Context) error {
+	users, err := c.repo.GetAll()
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	return c.JSON(http.StatusOK, echo.Map{
+	return ctx.JSON(http.StatusOK, echo.Map{
 		"message": "success get all users",
 		"data":    users,
 	})
+}
+
+func (c *UserController) LoginUser(ctx echo.Context) error {
+	user := new(model.User)
+	ctx.Bind(&user)
+
+	// Throws bad request error
+	// if user.Email == "" || user.Password == "" {
+	// 	return echo.ErrBadRequest
+	// }
+
+	loggedInUser, err := c.repo.Login(user)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	return ctx.JSON(http.StatusOK, echo.Map{
+		"message": "success logged in",
+		"data":    loggedInUser,
+	})
+}
+
+func NewUserController(g *gorm.DB) UserController {
+	return UserController{
+		repo: &repository.UserRepository{
+			DB: g,
+		},
+	}
 }

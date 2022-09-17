@@ -1,8 +1,8 @@
 package main
 
 import (
-	"day-4/go-restful/config"
-	"day-4/go-restful/route"
+	cg "day-4/go-restful/config"
+	r "day-4/go-restful/route"
 	"fmt"
 	"log"
 
@@ -20,7 +20,7 @@ func init() {
 
 func main() {
 	// Init database
-	config.InitDB()
+	cg.InitDB()
 	// Init echo
 	e := echo.New()
 
@@ -35,9 +35,8 @@ func main() {
 	g := e.Group("")
 
 	// Routes
-	route.Auth(g)
-	route.Book(g)
-	route.User(g)
+	r.RouteBook(g)
+	r.RouteUser(g)
 
 	fmt.Println(g)
 
