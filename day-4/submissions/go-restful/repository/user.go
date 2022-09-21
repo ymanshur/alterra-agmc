@@ -28,7 +28,7 @@ func (r *UserRepository) Get(userId uint) (*model.User, error) {
 }
 
 func (r *UserRepository) Update(userId uint, user *model.User) (*model.User, error) {
-	if err := r.DB.Model(&model.User{ID: userId}).Updates(user).Error; err != nil {
+	if err := r.DB.Model(&model.User{ID: userId}).Updates(&user).Error; err != nil {
 		return nil, err
 	}
 
@@ -63,6 +63,11 @@ func (r *UserRepository) Login(user *model.User) (*model.User, error) {
 		return nil, errors.New("these credentials do not match our records")
 	}
 
+	//-----
+	// JWT
+	//-----
+
+	// Create token
 	token, err := auth.CreateJwt(user)
 	if err != nil {
 		return nil, err

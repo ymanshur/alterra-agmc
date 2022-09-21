@@ -9,30 +9,30 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-var (
-	seq = 1
-)
-
-type BookController struct {
-	DB map[int]*model.Book
+type bookController struct {
+	db  map[int]*model.Book
+	seq int
 }
 
-func (c *BookController) CreateBook(ctx echo.Context) error {
+func (c *bookController) CreateBook(ctx echo.Context) error {
+	// Bind
 	book := &model.Book{
-		ID: seq,
+		ID: c.seq,
 	}
 	if err := ctx.Bind(book); err != nil {
 		return err
 	}
 
+	// Validate
 	if book.Title == "" || book.Author == "" {
 		return ctx.JSON(http.StatusUnprocessableEntity, echo.Map{
 			"message": constant.ErrInvalidInput.Error(),
 		})
 	}
 
-	c.DB[book.ID] = book
-	seq++
+	// Create book
+	c.db[book.ID] = book
+	c.seq++
 
 	return ctx.JSON(http.StatusCreated, echo.Map{
 		"message": "success create new book",
@@ -40,7 +40,8 @@ func (c *BookController) CreateBook(ctx echo.Context) error {
 	})
 }
 
-func (c *BookController) GetBook(ctx echo.Context) error {
+func (c *bookController) GetBook(ctx echo.Context) error {
+	// Validate parameter
 	bookId, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		return ctx.JSON(http.StatusBadRequest, echo.Map{
@@ -48,7 +49,8 @@ func (c *BookController) GetBook(ctx echo.Context) error {
 		})
 	}
 
-	if _, exist := c.DB[bookId]; !exist {
+	// Check if exist
+	if _, exist := c.db[bookId]; !exist {
 		return ctx.JSON(http.StatusNotFound, echo.Map{
 			"message": constant.ErrRecordNotFound.Error(),
 		})
@@ -56,11 +58,12 @@ func (c *BookController) GetBook(ctx echo.Context) error {
 
 	return ctx.JSON(http.StatusOK, echo.Map{
 		"message": "success get a book",
-		"data":    c.DB[bookId],
+		"data":    c.db[bookId],
 	})
 }
 
-func (c *BookController) UpdateBook(ctx echo.Context) error {
+func (c *bookController) UpdateBook(ctx echo.Context) error {
+	// Validate parameter
 	bookId, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		return ctx.JSON(http.StatusBadRequest, echo.Map{
@@ -68,33 +71,38 @@ func (c *BookController) UpdateBook(ctx echo.Context) error {
 		})
 	}
 
-	if _, exist := c.DB[bookId]; !exist {
+	// Check if exist
+	if _, exist := c.db[bookId]; !exist {
 		return ctx.JSON(http.StatusNotFound, echo.Map{
 			"message": constant.ErrRecordNotFound.Error(),
 		})
 	}
 
+	// Bind
 	book := new(model.Book)
 	if err := ctx.Bind(book); err != nil {
 		return err
 	}
 
+	// Validate
 	if book.Title == "" || book.Author == "" {
 		return ctx.JSON(http.StatusUnprocessableEntity, echo.Map{
 			"message": constant.ErrInvalidInput.Error(),
 		})
 	}
 
-	c.DB[bookId].Title = book.Title
-	c.DB[bookId].Author = book.Author
+	// Update book
+	c.db[bookId].Title = book.Title
+	c.db[bookId].Author = book.Author
 
 	return ctx.JSON(http.StatusOK, echo.Map{
 		"message": "success update a book",
-		"data":    c.DB[bookId],
+		"data":    c.db[bookId],
 	})
 }
 
-func (c *BookController) DeleteBook(ctx echo.Context) error {
+func (c *bookController) DeleteBook(ctx echo.Context) error {
+	// Validate parameter
 	bookId, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		return ctx.JSON(http.StatusBadRequest, echo.Map{
@@ -102,22 +110,24 @@ func (c *BookController) DeleteBook(ctx echo.Context) error {
 		})
 	}
 
-	if _, exist := c.DB[bookId]; !exist {
+	// Check if exist
+	if _, exist := c.db[bookId]; !exist {
 		return ctx.JSON(http.StatusNotFound, echo.Map{
 			"message": constant.ErrRecordNotFound.Error(),
 		})
 	}
 
-	delete(c.DB, bookId)
+	// Delete book
+	delete(c.db, bookId)
 
 	return ctx.JSON(http.StatusOK, echo.Map{
 		"message": "success delete a book",
 	})
 }
 
-func (c *BookController) GetAllBook(ctx echo.Context) error {
+func (c *bookController) GetAllBook(ctx echo.Context) error {
 	data := []model.Book{}
-	for _, book := range c.DB {
+	for _, book := range c.db {
 		data = append(data, *book)
 	}
 
@@ -127,8 +137,10 @@ func (c *BookController) GetAllBook(ctx echo.Context) error {
 	})
 }
 
-func NewBookController(db map[int]*model.Book) BookController {
-	return BookController{
-		DB: db,
+func NewBookController(db map[int]*model.Book) bookController {
+	seq := len(db) + 1
+	return bookController{
+		db:  db,
+		seq: seq,
 	}
 }

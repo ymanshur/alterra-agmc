@@ -4,25 +4,46 @@ import (
 	"day-4/go-restful/constant"
 	"day-4/go-restful/model"
 	"day-4/go-restful/repository"
-	"errors"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
 
-type UserController struct {
+type userController struct {
 	repo *repository.UserRepository
 }
 
-func (c *UserController) CreateUser(ctx echo.Context) error {
+func (c *userController) CreateUser(ctx echo.Context) error {
+	// Bind
 	user := new(model.User)
-	ctx.Bind(&user)
+	if err := ctx.Bind(user); err != nil {
+		return ctx.JSON(http.StatusBadRequest, echo.Map{
+			"message": err.Error(),
+		})
+	}
 
+	// Validate
+	if err := ctx.Validate(user); err != nil {
+		return ctx.JSON(http.StatusUnprocessableEntity, echo.Map{
+			"message": err.Error(),
+		})
+	}
+
+	// Create user
 	createdUser, err := c.repo.Create(user)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+		errorMessage := err.Error()
+		if strings.Contains(errorMessage, "Duplicate entry") {
+			return ctx.JSON(http.StatusUnprocessableEntity, echo.Map{
+				"message": errorMessage,
+			})
+		}
+		return ctx.JSON(http.StatusInternalServerError, echo.Map{
+			"message": errorMessage,
+		})
 	}
 
 	return ctx.JSON(http.StatusCreated, echo.Map{
@@ -31,18 +52,26 @@ func (c *UserController) CreateUser(ctx echo.Context) error {
 	})
 }
 
-func (c *UserController) GetUser(ctx echo.Context) error {
+func (c *userController) GetUser(ctx echo.Context) error {
+	// Validate parameter
 	userId, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, constant.ErrInvalidUrlParam.Error())
+		return ctx.JSON(http.StatusBadRequest, echo.Map{
+			"message": constant.ErrInvalidUrlParam.Error(),
+		})
 	}
 
+	// Get user
 	user, err := c.repo.Get(uint(userId))
 	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return echo.NewHTTPError(http.StatusNotFound, err.Error())
+		if err == gorm.ErrRecordNotFound {
+			return ctx.JSON(http.StatusNotFound, echo.Map{
+				"message": err.Error(),
+			})
 		}
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+		return ctx.JSON(http.StatusInternalServerError, echo.Map{
+			"message": err.Error(),
+		})
 	}
 
 	return ctx.JSON(http.StatusOK, echo.Map{
@@ -51,23 +80,32 @@ func (c *UserController) GetUser(ctx echo.Context) error {
 	})
 }
 
-func (c *UserController) UpdateUser(ctx echo.Context) error {
+func (c *userController) UpdateUser(ctx echo.Context) error {
+	// Validate parameter
 	userId, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, constant.ErrInvalidUrlParam.Error())
+		return ctx.JSON(http.StatusBadRequest, echo.Map{
+			"message": constant.ErrInvalidUrlParam.Error(),
+		})
 	}
 
-	// Return http.StatusNotFound if user does not exist
-	if _, err := c.repo.Get(uint(userId)); err != nil {
-		return echo.NewHTTPError(http.StatusNotFound, err.Error())
-	}
-
+	// Bind
 	user := new(model.User)
 	ctx.Bind(&user)
 
+	// Validate
+	if err := ctx.Validate(user); err != nil {
+		return ctx.JSON(http.StatusUnprocessableEntity, echo.Map{
+			"message": err.Error(),
+		})
+	}
+
+	// Update user
 	updatedUser, err := c.repo.Update(uint(userId), user)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+		return ctx.JSON(http.StatusInternalServerError, echo.Map{
+			"message": err.Error(),
+		})
 	}
 
 	return ctx.JSON(http.StatusOK, echo.Map{
@@ -76,14 +114,20 @@ func (c *UserController) UpdateUser(ctx echo.Context) error {
 	})
 }
 
-func (c *UserController) DeleteUser(ctx echo.Context) error {
+func (c *userController) DeleteUser(ctx echo.Context) error {
+	// Validate parameter
 	userId, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, constant.ErrInvalidUrlParam.Error())
+		return ctx.JSON(http.StatusBadRequest, echo.Map{
+			"message": constant.ErrInvalidUrlParam.Error(),
+		})
 	}
 
+	// Delete user
 	if err := c.repo.Delete(uint(userId)); err != nil {
-		return echo.NewHTTPError(http.StatusNotFound, err.Error())
+		return ctx.JSON(http.StatusInternalServerError, echo.Map{
+			"message": err.Error(),
+		})
 	}
 
 	return ctx.JSON(http.StatusOK, echo.Map{
@@ -91,7 +135,7 @@ func (c *UserController) DeleteUser(ctx echo.Context) error {
 	})
 }
 
-func (c *UserController) GetAllUser(ctx echo.Context) error {
+func (c *userController) GetAllUser(ctx echo.Context) error {
 	users, err := c.repo.GetAll()
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
@@ -103,7 +147,7 @@ func (c *UserController) GetAllUser(ctx echo.Context) error {
 	})
 }
 
-func (c *UserController) LoginUser(ctx echo.Context) error {
+func (c *userController) LoginUser(ctx echo.Context) error {
 	user := new(model.User)
 	ctx.Bind(&user)
 
@@ -123,10 +167,10 @@ func (c *UserController) LoginUser(ctx echo.Context) error {
 	})
 }
 
-func NewUserController(g *gorm.DB) UserController {
-	return UserController{
+func NewUserController(db *gorm.DB) userController {
+	return userController{
 		repo: &repository.UserRepository{
-			DB: g,
+			DB: db,
 		},
 	}
 }

@@ -1,8 +1,8 @@
 package auth
 
 import (
+	cons "day-4/go-restful/constant"
 	"day-4/go-restful/model"
-	"os"
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
@@ -29,5 +29,5 @@ func CreateJwt(user *model.User) (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString([]byte(os.Getenv("SECRET_JWT")))
+	return token.SignedString([]byte(cons.Getenv("SECRET_JWT")))
 }

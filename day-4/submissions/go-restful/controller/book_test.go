@@ -2,7 +2,6 @@ package controller
 
 import (
 	"day-4/go-restful/model"
-	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -13,16 +12,16 @@ import (
 )
 
 var (
-	mockDB = map[int]*model.Book{
+	envFilePath = "../.env.test"
+	mockBookDB  = map[int]*model.Book{
 		1: {ID: 1, Title: "Ulysses", Author: "James Joyce"},
 	}
-	path = "/books"
 )
 
 func TestCreateBookCreated(t *testing.T) {
 	// Setup
 	e := echo.New()
-	req := httptest.NewRequest(http.MethodPost, path, strings.NewReader(
+	req := httptest.NewRequest(http.MethodPost, "/books", strings.NewReader(
 		`{"title": "Ulysses", "author": "James Joyce"}`,
 	))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
@@ -39,7 +38,7 @@ func TestCreateBookCreated(t *testing.T) {
 func TestCreateBookUnprocessableEntity(t *testing.T) {
 	// Setup
 	e := echo.New()
-	req := httptest.NewRequest(http.MethodPost, path, strings.NewReader(
+	req := httptest.NewRequest(http.MethodPost, "/books", strings.NewReader(
 		`{"title": "", "author": "James Joyce"}`,
 	))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
@@ -56,12 +55,12 @@ func TestCreateBookUnprocessableEntity(t *testing.T) {
 func TestGetBookSuccess(t *testing.T) {
 	// Setup
 	e := echo.New()
-	req := httptest.NewRequest(http.MethodGet, fmt.Sprintf("%s/:id", path), nil)
+	req := httptest.NewRequest(http.MethodGet, "/books/:id", nil)
 	rec := httptest.NewRecorder()
 	ctx := e.NewContext(req, rec)
 	ctx.SetParamNames("id")
 	ctx.SetParamValues("1")
-	c := NewBookController(mockDB)
+	c := NewBookController(mockBookDB)
 
 	// Assertions
 	if assert.NoError(t, c.GetBook(ctx)) {
@@ -72,12 +71,12 @@ func TestGetBookSuccess(t *testing.T) {
 func TestGetBookBadRequest(t *testing.T) {
 	// Setup
 	e := echo.New()
-	req := httptest.NewRequest(http.MethodGet, fmt.Sprintf("%s/:id", path), nil)
+	req := httptest.NewRequest(http.MethodGet, "/books/:id", nil)
 	rec := httptest.NewRecorder()
 	ctx := e.NewContext(req, rec)
 	ctx.SetParamNames("id")
 	ctx.SetParamValues("a")
-	c := NewBookController(mockDB)
+	c := NewBookController(mockBookDB)
 
 	// Assertions
 	if assert.NoError(t, c.GetBook(ctx)) {
@@ -88,7 +87,7 @@ func TestGetBookBadRequest(t *testing.T) {
 func TestUpdateBookSuccess(t *testing.T) {
 	// Setup
 	e := echo.New()
-	req := httptest.NewRequest(http.MethodGet, fmt.Sprintf("%s/:id", path), strings.NewReader(
+	req := httptest.NewRequest(http.MethodGet, "/books/:id", strings.NewReader(
 		`{"title": "Ulysses", "author": "James Joyce M."}`,
 	))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
@@ -96,7 +95,7 @@ func TestUpdateBookSuccess(t *testing.T) {
 	ctx := e.NewContext(req, rec)
 	ctx.SetParamNames("id")
 	ctx.SetParamValues("1")
-	c := NewBookController(mockDB)
+	c := NewBookController(mockBookDB)
 
 	// Assertions
 	if assert.NoError(t, c.UpdateBook(ctx)) {
@@ -107,7 +106,7 @@ func TestUpdateBookSuccess(t *testing.T) {
 func TestUpdateBookBadRequest(t *testing.T) {
 	// Setup
 	e := echo.New()
-	req := httptest.NewRequest(http.MethodGet, fmt.Sprintf("%s/:id", path), strings.NewReader(
+	req := httptest.NewRequest(http.MethodGet, "/books/:id", strings.NewReader(
 		`{"title": "Ulysses", "author": ""}`,
 	))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
@@ -115,7 +114,7 @@ func TestUpdateBookBadRequest(t *testing.T) {
 	ctx := e.NewContext(req, rec)
 	ctx.SetParamNames("id")
 	ctx.SetParamValues("1")
-	c := NewBookController(mockDB)
+	c := NewBookController(mockBookDB)
 
 	// Assertions
 	if assert.NoError(t, c.UpdateBook(ctx)) {
@@ -126,12 +125,12 @@ func TestUpdateBookBadRequest(t *testing.T) {
 func TestDeleteBookSuccess(t *testing.T) {
 	// Setup
 	e := echo.New()
-	req := httptest.NewRequest(http.MethodDelete, fmt.Sprintf("%s/:id", path), nil)
+	req := httptest.NewRequest(http.MethodDelete, "/books/:id", nil)
 	rec := httptest.NewRecorder()
 	ctx := e.NewContext(req, rec)
 	ctx.SetParamNames("id")
 	ctx.SetParamValues("1")
-	c := NewBookController(mockDB)
+	c := NewBookController(mockBookDB)
 
 	// Assertions
 	if assert.NoError(t, c.DeleteBook(ctx)) {
@@ -142,12 +141,12 @@ func TestDeleteBookSuccess(t *testing.T) {
 func TestDeleteBookRecordNotFound(t *testing.T) {
 	// Setup
 	e := echo.New()
-	req := httptest.NewRequest(http.MethodDelete, fmt.Sprintf("%s/:id", path), nil)
+	req := httptest.NewRequest(http.MethodDelete, "/books/:id", nil)
 	rec := httptest.NewRecorder()
 	ctx := e.NewContext(req, rec)
 	ctx.SetParamNames("id")
 	ctx.SetParamValues("2")
-	c := NewBookController(mockDB)
+	c := NewBookController(mockBookDB)
 
 	// Assertions
 	if assert.NoError(t, c.DeleteBook(ctx)) {
@@ -158,10 +157,10 @@ func TestDeleteBookRecordNotFound(t *testing.T) {
 func TestGetAllBookSuccess(t *testing.T) {
 	// Setup
 	e := echo.New()
-	req := httptest.NewRequest(http.MethodGet, path, nil)
+	req := httptest.NewRequest(http.MethodGet, "/books", nil)
 	rec := httptest.NewRecorder()
 	ctx := e.NewContext(req, rec)
-	c := NewBookController(mockDB)
+	c := NewBookController(mockBookDB)
 
 	// Assertions
 	if assert.NoError(t, c.GetAllBook(ctx)) {
