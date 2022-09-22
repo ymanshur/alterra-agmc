@@ -1,5 +1,12 @@
 ## GO RESTFUL APP
-#### The day 6 & 7 submission AGMC (by [Alterra](https://www.alterra.id/)) project.
+
+The day 6 & 7 submission AGMC (by [Alterra](https://www.alterra.id/)) project.
+
+Notable features:
+
+- Includes a multi-stage Dockerfile, which actually build Go binaries (minimum app size).
+- Has functional tests for application's business requirements using default Go testing.
+- You need to run database app (MySQL) in your local machine first before up the app docker image
 
 ### Setup
 1. Create `.env` config file, look at [.env.example](./.env.example) for mandatory *key-value*
@@ -40,3 +47,15 @@
     ```
     <small>Note: `-d` argument means detached mode</small>
 
+### Testing
+
+- Do functional test using following command
+
+    ```bash
+    make test
+    ```
+- To show in html mode using
+
+    ```bash
+    make test mode=html
+    ```
