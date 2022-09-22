@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  app:
+    build: .
+    image: ymanshur/go-restful
+    container_name: go-restful
+    ports:
+      - "1323:8080"
+    environment:
+      DB_HOST: host.docker.internal
+      SERVER_PORT: 8080
+    restart: always
