@@ -3,6 +3,7 @@ package main
 import (
 	"day-6/go-restful/internal/factory"
 	"day-6/go-restful/internal/http"
+	"day-6/go-restful/pkg/constant"
 	"day-6/go-restful/pkg/util"
 
 	"github.com/go-playground/validator/v10"
@@ -28,5 +29,6 @@ func main() {
 	http.New(e.Group("/api"), f)
 
 	// Start server
-	e.Logger.Fatal(e.Start(":1323"))
+	port := constant.Env.Get("SERVER_PORT", "")
+	e.Logger.Fatal(e.Start(":" + port))
 }
