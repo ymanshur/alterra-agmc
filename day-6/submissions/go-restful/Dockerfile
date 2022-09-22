@@ -25,9 +25,6 @@ WORKDIR /
 
 COPY --from=builder /go-restful .
 
-# Copy .env files
-COPY .env* .
-
 EXPOSE 8080
 
 ENTRYPOINT ["./go-restful"]
