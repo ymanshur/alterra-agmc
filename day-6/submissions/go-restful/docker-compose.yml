@@ -4,14 +4,14 @@ services:
   app:
     build: .
     image: ymanshur/go-restful:${APP_VERSION}
+    restart: always
     container_name: go-restful
     ports:
-      - ${APP_PORT}:8080
+      - ${APP_PORT:-8000}:8000
     environment:
-      JWT_SECRET: ${JWT_SECRET}
-      DB_USER: ${DB_USER}
-      DB_PASS: ${DB_PASS}
-      DB_PORT: ${DB_PORT}
+      JWT_SECRET: ${JWT_SECRET:?err}
+      DB_USER: ${DB_USER:?err}
+      DB_PASS: ${DB_PASS:?err}
+      DB_PORT: ${DB_PORT:-3306}
       DB_HOST: host.docker.internal
-      DB_NAME: ${DB_NAME}
-    restart: always
+      DB_NAME: ${DB_NAME:?err}
