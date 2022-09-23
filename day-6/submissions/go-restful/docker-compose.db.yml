@@ -1,0 +1,22 @@
+version: "3.7"
+
+services:
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASS:?err}
+      MYSQL_DATABASE: ${DB_NAME:?err}
+      # You should comment following (MYSQL_USER key-value) line if you using 'root' as user
+      # MYSQL_USER: ${DB_USER:?err}
+      MYSQL_PASSWORD: ${DB_PASS:?err}
+    ports:
+      - ${DB_PORT:-3306}:3306
+    expose:
+      - 3306
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
