@@ -16,15 +16,15 @@ RUN go mod download
 # COPY *.go ./
 
 # Build executable binary
-RUN go build -o /go-restful
+RUN go build -o /main
 
 # Build a small image
 FROM alpine:3.16.0
 
 WORKDIR /
 
-COPY --from=builder /go-restful .
+COPY --from=builder /main .
 
 EXPOSE 8080
 
-ENTRYPOINT ["./go-restful"]
+ENTRYPOINT ["./main"]
