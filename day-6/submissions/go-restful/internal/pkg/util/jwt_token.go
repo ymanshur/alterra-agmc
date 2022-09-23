@@ -29,5 +29,5 @@ func CreateJwt(user *model.User) (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString([]byte(constant.Env.Get("SECRET_JWT", "")))
+	return token.SignedString([]byte(constant.Env.Get("JWT_SECRET", "")))
 }

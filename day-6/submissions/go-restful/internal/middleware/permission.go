@@ -14,7 +14,7 @@ import (
 var (
 	IsLoggedIn = middleware.JWTWithConfig(middleware.JWTConfig{
 		Claims:     &inutil.JwtClaims{},
-		SigningKey: []byte(constant.Env.Get("SECRET_JWT", "")),
+		SigningKey: []byte(constant.Env.Get("JWT_SECRET", "")),
 	})
 )
 
