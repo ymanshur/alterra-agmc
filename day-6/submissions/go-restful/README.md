@@ -32,7 +32,7 @@ Notable features:
         ports:
             - "${APP_PORT:-8080}:8080"
         environment:
-            SECRET_JWT: ${SECRET_JWT:?err}
+            JWT_SECRET: ${JWT_SECRET:?err}
             DB_USER: ${DB_USER:?err}
             DB_PASS: ${DB_PASS}
             DB_PORT: ${DB_PORT:?err}
@@ -54,7 +54,7 @@ Notable features:
     ```bash
     make test
     ```
-- To show in html mode using
+- To show in html mode, use
 
     ```bash
     make test mode=html

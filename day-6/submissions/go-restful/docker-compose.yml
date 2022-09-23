@@ -6,9 +6,9 @@ services:
     image: ymanshur/go-restful:${APP_VERSION}
     container_name: go-restful
     ports:
-      - "${APP_PORT}:8080"
+      - ${APP_PORT}:8080
     environment:
-      SECRET_JWT: ${SECRET_JWT}
+      JWT_SECRET: ${JWT_SECRET}
       DB_USER: ${DB_USER}
       DB_PASS: ${DB_PASS}
       DB_PORT: ${DB_PORT}
