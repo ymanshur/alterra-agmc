@@ -1,0 +1,15 @@
+version: "3.7"
+
+services:
+  app:
+    image: ymanshur/go-restful:${APP_VERSION}
+    container_name: go-restful
+    ports:
+      - "${APP_PORT:-8080}:8080"
+    environment:
+      JWT_SECRET: ${JWT_SECRET:?err}
+      DB_USER: ${DB_USER:?err}
+      DB_PASS: ${DB_PASS:?err}
+      DB_PORT: ${DB_PORT:?err}
+      DB_HOST: host.docker.internal
+      DB_NAME: ${DB_NAME:?err}
