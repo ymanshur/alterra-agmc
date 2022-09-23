@@ -20,7 +20,7 @@ Notable features:
     ```bash
     docker-compose build
     ```
-    or just *up* published docker image (means [Docker Hub](https://hub.docker.com/)) using following `docker-compose.yml` file
+    or just *up* published docker image (means [Docker Hub](https://hub.docker.com/)) using following [docker-compose.yml](docker-compose.client.yml) file
 
     ```
     version: "3.7"
@@ -34,10 +34,30 @@ Notable features:
         environment:
             JWT_SECRET: ${JWT_SECRET:?err}
             DB_USER: ${DB_USER:?err}
-            DB_PASS: ${DB_PASS}
+            DB_PASS: ${DB_PASS:?err}
             DB_PORT: ${DB_PORT:?err}
             DB_HOST: host.docker.internal
             DB_NAME: ${DB_NAME:?err}
+    ```
+
+3. You can *up* existing db image such as mysql (officialy exist at Github Hub registry) and use it for database, but its optional. You can write your own service or extend from [docker-compose.db.yml](docker-compose.db.yml).
+
+    ```
+    app_db:
+        extends:
+            file: docker-compose.db.yml
+            service: db
+        container_name: go-restful_db
+    ```
+
+    and if you need lite version of phpMyAdmin just add following service
+
+    ```
+    app_db_adminer:
+        extends:
+            file: docker-compose.db.yml
+            service: adminer
+        container_name: go-restful_db_adminer
     ```
 
 2. Run app using docker-compose
