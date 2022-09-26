@@ -10,6 +10,17 @@ func main() {
 	// fmt.Println(getMaximumEvenSum(val))
 }
 
+/**
+ * Event Difference - HackerRank
+ *
+ * Hint:
+ * To have the sum of adjacent elements even, the difference between the first and last elements has to be even in the sorted array.
+ *      1. Sort the array.
+ *      2. Find the first and last occurrence of the even number in the array.
+ *      3. Find the first and last occurrence of the odd number in the array.
+ * The answer is the maximum difference between the first and last occurrence of the even number in the array and the first and last occurrence of the odd number in the array.
+ */
+
 func findLongestSubsequence(arr []int32) int32 {
 	longestSubset := []int32{}
 
@@ -49,6 +60,15 @@ func findMinMax(arr []int32) (int32, int32) {
 	}
 	return min, max
 }
+
+/**
+ * Discount Tags - HackerRank
+ *
+ * Hint:
+ *      1. First, it will always be optimal to choose as many positive elements as possible.
+ *      2. Then, to make the sum even, there are two options, either remove an odd positive element or add a negative odd element.
+ *      3. So, find the minimum amongst the absolute values of all odd elements, and update the answer accordingly.
+ */
 
 func getMaximumEvenSum(val []int32) int64 {
 	var maxSumOfVal int32
