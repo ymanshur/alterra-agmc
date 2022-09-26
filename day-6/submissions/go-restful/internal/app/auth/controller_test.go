@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"day-4/go-restful/lib"
 	"day-6/go-restful/database"
 	"day-6/go-restful/internal/factory"
 	"day-6/go-restful/internal/model"
@@ -44,7 +43,7 @@ var (
 func TestSignUpSuccess(t *testing.T) {
 	// Setup
 	e := echo.New()
-	e.Validator = &lib.CustomValidator{Validator: validator.New()}
+	e.Validator = &util.CustomValidator{Validator: validator.New()}
 	req := httptest.NewRequest(http.MethodPost, baseURL+"/signup", strings.NewReader(
 		`{"name": "Fityah Salamah", "email": "fityah.salamah@gmail.com", "password": "1234"}`,
 	))
@@ -62,7 +61,7 @@ func TestSignUpSuccess(t *testing.T) {
 func TestSignUpUnprocessableEntity(t *testing.T) {
 	// Setup
 	e := echo.New()
-	e.Validator = &lib.CustomValidator{Validator: validator.New()}
+	e.Validator = &util.CustomValidator{Validator: validator.New()}
 	req := httptest.NewRequest(http.MethodPost, baseURL+"/signup", strings.NewReader(
 		`{"name": "", "email": "fityah.salamah@gmail.com", "password": "1234"}`,
 	))
@@ -80,7 +79,7 @@ func TestSignUpUnprocessableEntity(t *testing.T) {
 func TestSignInSuccess(t *testing.T) {
 	// Setup
 	e := echo.New()
-	e.Validator = &lib.CustomValidator{Validator: validator.New()}
+	e.Validator = &util.CustomValidator{Validator: validator.New()}
 	req := httptest.NewRequest(http.MethodPost, baseURL+"/signin", strings.NewReader(
 		`{"email": "fityah.salamah@gmail.com", "password": "1234"}`,
 	))

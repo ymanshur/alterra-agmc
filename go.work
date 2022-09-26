@@ -1,6 +1,6 @@
 go 1.19
 
 use (
-	./day-4/submissions/go-restful
+	// ./day-4/submissions/go-restful
 	./day-6/submissions/go-restful
 )
