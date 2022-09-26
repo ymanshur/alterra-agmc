@@ -11,7 +11,7 @@ services:
     environment:
       JWT_SECRET: ${JWT_SECRET:?err}
       DB_USER: ${DB_USER:?err}
-      DB_PASS: ${DB_PASS:?err}
+      DB_PASS: ${DB_PASS}
       DB_PORT: ${DB_PORT:-3306}
       DB_HOST: host.docker.internal
       DB_NAME: ${DB_NAME:?err}
